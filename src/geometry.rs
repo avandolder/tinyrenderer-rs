@@ -1,6 +1,11 @@
 use std::fmt::Debug;
 use std::ops::*;
 
+pub type Vec2f = Vec2<f32>;
+pub type Vec2i = Vec2<i32>;
+pub type Vec3f = Vec3<f32>;
+pub type Vec3i = Vec3<i32>;
+
 pub trait Sqrt {
     fn sqrti(&self) -> Self;
 }
@@ -86,10 +91,7 @@ impl<S: Scalar> Add for Vec2<S> {
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
-        Self::new(
-            self.0[0] + other.0[0],
-            self.0[1] + other.0[1],
-        )
+        Self::new(self.0[0] + other.0[0], self.0[1] + other.0[1])
     }
 }
 
@@ -104,10 +106,7 @@ impl<S: Scalar> Sub for Vec2<S> {
     type Output = Self;
 
     fn sub(self, other: Self) -> Self {
-        Self::new(
-            self.0[0] - other.0[0],
-            self.0[1] - other.0[1],
-        )
+        Self::new(self.0[0] - other.0[0], self.0[1] - other.0[1])
     }
 }
 
@@ -122,10 +121,7 @@ impl<S: Scalar> Mul for Vec2<S> {
     type Output = Self;
 
     fn mul(self, other: Self) -> Self {
-        Self::new(
-            self.0[0] * other.0[0],
-            self.0[1] * other.0[1],
-        )
+        Self::new(self.0[0] * other.0[0], self.0[1] * other.0[1])
     }
 }
 
@@ -155,10 +151,7 @@ impl<S: Scalar> Div for Vec2<S> {
     type Output = Self;
 
     fn div(self, other: Self) -> Self {
-        Self::new(
-            self.0[0] / other.0[0],
-            self.0[1] / other.0[1],
-        )
+        Self::new(self.0[0] / other.0[0], self.0[1] / other.0[1])
     }
 }
 

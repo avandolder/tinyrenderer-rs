@@ -25,13 +25,15 @@ impl Model {
             let points = line.split_off(2);
             match &line[0..2] {
                 "v " => {
-                    let pt = points.split(" ")
+                    let pt = points
+                        .split(" ")
                         .flat_map(|x| x.parse::<f32>())
                         .collect::<Vec<f32>>();
                     verts.push(Vec3::new(pt[0], pt[1], pt[2]));
                 }
                 "f " => {
-                    let pt = points.split(" ")
+                    let pt = points
+                        .split(" ")
                         .flat_map(|x| x.split("/").next().unwrap().parse::<usize>())
                         .collect::<Vec<usize>>();
                     faces.push(vec![pt[0] - 1, pt[1] - 1, pt[2] - 1]);

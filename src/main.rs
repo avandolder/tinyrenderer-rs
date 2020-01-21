@@ -3,7 +3,11 @@ use image;
 mod geometry;
 mod model;
 
+use geometry::Vec2i;
 use model::Model;
+
+type Image = image::ImageBuffer<image::Rgba<u8>, Vec<u8>>;
+type Color = image::Rgba<u8>;
 
 const WIDTH: u32 = 400;
 const HEIGHT: u32 = 400;
@@ -15,8 +19,8 @@ const RED: image::Rgba<u8> = image::Rgba([255, 0, 0, 255]);
 fn draw_line(
     (mut x0, mut y0): (i32, i32),
     (mut x1, mut y1): (i32, i32),
-    img: &mut image::ImageBuffer<image::Rgba<u8>, Vec<u8>>,
-    color: image::Rgba<u8>,
+    img: &mut Image,
+    color: Color,
 ) {
     let mut steep = false;
     if (x0 - x1).abs() < (y0 - y1).abs() {
