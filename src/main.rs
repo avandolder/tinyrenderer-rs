@@ -55,11 +55,57 @@ fn draw_line(
     }
 }
 
+fn triangle<T>(t0: T, t1: T, t2: T, img: &mut Image, color: Color)
+where
+    T: Copy + Into<(i32, i32)>,
+{
+    draw_line(t0.into(), t1.into(), img, RED);
+    draw_line(t1.into(), t2.into(), img, RED);
+    draw_line(t0.into(), t2.into(), img, RED);
+
+    let mut vertices = vec![t0.into(), t1.into(), t2.into()];
+    vertices.sort_by_key(|t| t.1);
+
+    let y0 = vertices[0].1;
+    let y1 = vertices[1].1;
+    let y2 = vertices[2].1;
+    let x0 = vertices[0].0;
+    let x1 = vertices[1].0;
+    let x2 = vertices[2].0;
+
+    let m1 = (x1 - x0) as f32 / (y1 - y0) as f32;
+    let mut currx1 = x0 as f32;
+    let m2 = (x2 - x0) as f32 / (y2 - y0) as f32;
+    let mut currx2 = x0 as f32;
+
+    for y in y0..y1 {
+        currx1 += m1;
+        currx2 += m2;
+        draw_line((currx1.ceil() as i32, y), (currx2.ceil() as i32, y), img, color);
+    }
+
+    let m1 = (x2 - x1) as f32 / (y2 - y1) as f32;
+    for y in y1..y2 {
+        currx1 += m1;
+        currx2 += m2;
+        draw_line((currx1.ceil() as i32, y), (currx2.ceil() as i32, y), img, color);
+    }
+}
+
 fn main() {
     let mut img = image::ImageBuffer::from_pixel(WIDTH, HEIGHT, BLACK);
     let (width, height) = (WIDTH as f32, HEIGHT as f32);
 
-    let model = Model::new("obj/african_head.obj").unwrap();
+    let ts = [
+        [(10, 70), (50, 160), (70, 80)],
+        [(180, 50), (150, 1), (70, 180)],
+        [(180, 150), (120, 160), (130, 180)],
+    ];
+    for t in &ts {
+        triangle(t[0], t[1], t[2], &mut img, WHITE);
+    }
+
+    /*let model = Model::new("obj/african_head.obj").unwrap();
     for face in &model.faces {
         for i in 0..3 {
             let v0 = model.verts[face[i]];
@@ -70,7 +116,7 @@ fn main() {
             let y1 = ((v1[1] + 1.) * height / 2.).min(height - 1.) as i32;
             draw_line((x0, y0), (x1, y1), &mut img, WHITE);
         }
-    }
+    }*/
 
     let dyn_img = image::DynamicImage::ImageRgba8(img);
     dyn_img.flipv().save("output.png").unwrap();

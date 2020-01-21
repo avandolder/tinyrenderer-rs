@@ -206,6 +206,12 @@ impl<S: Scalar> From<(S, S)> for Vec2<S> {
     }
 }
 
+impl<S: Scalar> Into<(S, S)> for Vec2<S> {
+    fn into(self) -> (S, S) {
+        (self.0[0], self.0[1])
+    }
+}
+
 #[derive(Clone, Copy, Debug, Default)]
 pub struct Vec3<S: Scalar>(pub [S; 3]);
 
